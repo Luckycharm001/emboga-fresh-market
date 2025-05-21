@@ -41,10 +41,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
     <Link 
       to={`/product/${product.id}`} 
       className={cn(
-        "product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg",
+        "product-card bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg relative",
         className
       )}
     >
+      {product.farmerProduct && (
+        <div className="absolute top-2 right-2 bg-emboga-primary text-white text-xs px-2 py-1 rounded-full">
+          Direct from Farmer
+        </div>
+      )}
       <div className="aspect-square overflow-hidden">
         <img 
           src={product.image} 

@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, Search, ShoppingCart, User, X } from 'lucide-react';
+import { Menu, Search, ShoppingCart, User, X, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -9,6 +9,12 @@ import { useCart } from '@/context/CartContext';
 import { CartDropdown } from '@/components/cart/CartDropdown';
 import { NavigationMenu } from '@/components/navigation/NavigationMenu';
 import { MobileMenu } from '@/components/navigation/MobileMenu';
+
+// Temporary mock user state until we have proper authentication
+const mockUserState = {
+  isLoggedIn: false,
+  role: 'consumer', // 'consumer' or 'farmer'
+};
 
 const Header = () => {
   const { totalItems } = useCart();
@@ -72,6 +78,15 @@ const Header = () => {
             >
               <Search className="h-5 w-5" />
             </Button>
+
+            {mockUserState.isLoggedIn && mockUserState.role === 'farmer' && (
+              <Link to="/add-product">
+                <Button variant="outline" className="hidden md:flex items-center">
+                  <Plus className="h-5 w-5 mr-1" /> 
+                  <span>Add Product</span>
+                </Button>
+              </Link>
+            )}
 
             <Link to="/login">
               <Button variant="ghost" size="icon">
