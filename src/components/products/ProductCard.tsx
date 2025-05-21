@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart } from 'lucide-react';
+import { ShoppingCart, Flag, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/CartContext';
 import { Product } from '@/data/products';
@@ -26,6 +26,17 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
     });
   };
 
+  const renderFreshness = (rating: number = 0) => {
+    return (
+      <div className="flex items-center">
+        {rating > 0 && (
+          <Star className="h-3 w-3 text-yellow-500 fill-yellow-500 mr-1" />
+        )}
+        <span className="text-xs">{rating}/5</span>
+      </div>
+    );
+  };
+
   return (
     <Link 
       to={`/product/${product.id}`} 
@@ -44,6 +55,15 @@ const ProductCard: React.FC<ProductCardProps> = ({ product, className }) => {
       <div className="p-4">
         <h3 className="text-lg font-semibold text-emboga-primary mb-1">{product.name}</h3>
         <p className="text-sm text-gray-600 mb-2">{product.category}</p>
+        <div className="flex items-center text-xs text-gray-500 mb-2">
+          {product.origin && (
+            <div className="flex items-center mr-3">
+              <Flag className="h-3 w-3 mr-1 text-emboga-primary" />
+              <span>{product.origin.split(',')[0]}</span>
+            </div>
+          )}
+          {product.freshness && renderFreshness(product.freshness)}
+        </div>
         <div className="flex justify-between items-center">
           <div>
             <p className="font-bold text-lg">KSh {product.price}</p>

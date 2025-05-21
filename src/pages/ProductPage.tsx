@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
-import { ChevronRight, Minus, Plus, ShoppingCart } from 'lucide-react';
+import { ChevronRight, Minus, Plus, ShoppingCart, Flag, Star } from 'lucide-react';
 import { getProductById } from '@/data/products';
 import { useCart } from '@/context/CartContext';
 import { toast } from 'sonner';
@@ -52,6 +52,19 @@ const ProductPage = () => {
     }
     toast.success(`Added ${quantity} ${product.name}${quantity > 1 ? 's' : ''} to cart`);
   };
+
+  const renderStars = (rating: number = 0) => {
+    return (
+      <div className="flex items-center">
+        {[...Array(5)].map((_, i) => (
+          <Star 
+            key={i} 
+            className={`h-4 w-4 ${i < rating ? 'text-yellow-500 fill-yellow-500' : 'text-gray-300'}`}
+          />
+        ))}
+      </div>
+    );
+  };
   
   return (
     <Layout>
@@ -78,6 +91,19 @@ const ProductPage = () => {
           <div className="space-y-6">
             <h1 className="text-3xl font-bold text-emboga-primary">{product.name}</h1>
             <p className="text-lg text-gray-600">{product.description}</p>
+            
+            <div className="flex items-center space-x-6">
+              <div className="flex items-center">
+                <Flag className="h-4 w-4 mr-2 text-emboga-primary" />
+                <span className="font-medium">Origin:</span>
+                <span className="ml-2">{product.origin || 'Unknown'}</span>
+              </div>
+              
+              <div className="flex items-center">
+                <div className="mr-2 font-medium">Freshness:</div>
+                {renderStars(product.freshness)}
+              </div>
+            </div>
             
             <div className="flex items-center space-x-2">
               <span className="text-2xl font-bold text-emboga-primary">KSh {product.price}</span>
